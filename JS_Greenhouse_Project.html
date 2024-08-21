@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Greenhouse System</title>
+    <style>
+        body {
+            background-color: #D0E9F5;
+            text-align: center;
+        }
+        canvas {
+            background-color: #B2C7DA;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Smart Greenhouse System</h1>
+    <canvas id="greenhouseCanvas" width="500" height="300"></canvas>
+
+    <script>
+        // Initial sensor data
+        const sensorData = {
+            temperature: 17.4,
+            humidity: 40.0,
+            moisture: 47.4,
+            lightIntensity: 45.0,
+            cropGrowth: 1.3
+        };
+
+        // Function to draw the greenhouse and sensors
+        function drawGreenhouse() {
+            const canvas = document.getElementById("greenhouseCanvas");
+            const ctx = canvas.getContext("2d");
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw greenhouse (rectangle)
+            ctx.fillStyle = "#D3D3D3";
+            ctx.fillRect(50, 50, 400, 200);
+
+            // Draw light (yellow circle)
+            ctx.beginPath();
+            ctx.arc(365, 35, 15, 0, 2 * Math.PI);
+            ctx.fillStyle = "yellow";
+            ctx.fill();
+            ctx.stroke();
+
+            // Draw heater (red rectangle)
+            ctx.fillStyle = "red";
+            ctx.fillRect(300, 90, 50, 50);
+
+            // Add labels for the sensors
+            ctx.fillStyle = "black";
+            ctx.font = "16px Arial";
+            ctx.fillText(`Temperature: ${sensorData.temperature}°C`, 60, 280);
+            ctx.fillText(`Humidity: ${sensorData.humidity}%`, 200, 280);
+            ctx.fillText(`Light: ${sensorData.lightIntensity}%`, 340, 280);
+        }
+
+        // Simulate sensor data updates
+        function updateSensorData() {
+            sensorData.temperature = (Math.random() * 10 + 15).toFixed(1);
+            sensorData.humidity = (Math.random() * 20 + 30).toFixed(1);
+            sensorData.lightIntensity = (Math.random() * 50 + 20).toFixed(1);
+        }
+
+        // Update the UI every 1 second
+        setInterval(() => {
+            updateSensorData();
+            drawGreenhouse();
+        }, 1000);
+
+        // Initial drawing
+        drawGreenhouse();
+    </script>
+
+</body>
+</html>

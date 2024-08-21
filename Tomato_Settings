@@ -1,0 +1,88 @@
+class TomatoSettings:
+    def __init__(self):
+        """
+        Initializes the Tomato Settings with default thresholds for temperature, humidity, 
+        soil moisture, and light intensity.
+        """
+        self.temperature_min = 21  # Minimum temperature in Celsius
+        self.temperature_max = 27  # Maximum temperature in Celsius
+        self.humidity_min = 60     # Minimum humidity percentage
+        self.humidity_max = 70     # Maximum humidity percentage
+        self.moisture_min = 60     # Minimum soil moisture percentage
+        self.moisture_max = 80     # Maximum soil moisture percentage
+        self.light_min = 20000     # Minimum light intensity in lux
+        self.light_max = 40000     # Maximum light intensity in lux
+
+    def check_conditions(self, temperature, humidity, moisture, light_intensity):
+        """
+        Checks the sensor data against the threshold values. If any condition goes outside the 
+        specified range, an alert is generated.
+        
+        :param temperature: The current temperature reading
+        :param humidity: The current humidity reading
+        :param moisture: The current soil moisture reading
+        :param light_intensity: The current light intensity reading
+        :return: A list of alert messages, if any conditions exceed thresholds.
+        """
+        alerts = []
+
+        # Check temperature range
+        if temperature < self.temperature_min:
+            alerts.append(f"Alert: Temperature is too low! ({temperature}C)")
+        elif temperature > self.temperature_max:
+            alerts.append(f"Alert: Temperature is too high! ({temperature}C)")
+
+        # Check humidity range
+        if humidity < self.humidity_min:
+            alerts.append(f"Alert: Humidity is too low! ({humidity}%)")
+        elif humidity > self.humidity_max:
+            alerts.append(f"Alert: Humidity is too high! ({humidity}%)")
+
+        # Check soil moisture range
+        if moisture < self.moisture_min:
+            alerts.append(f"Alert: Soil moisture is too low! ({moisture}%)")
+        elif moisture > self.moisture_max:
+            alerts.append(f"Alert: Soil moisture is too high! ({moisture}%)")
+
+        # Check light intensity range
+        if light_intensity < self.light_min:
+            alerts.append(f"Alert: Light intensity is too low! ({light_intensity} lux)")
+        elif light_intensity > self.light_max:
+            alerts.append(f"Alert: Light intensity is too high! ({light_intensity} lux)")
+
+        return alerts
+
+
+# Example of how to integrate with the main program (usage):
+# Assuming the sensor data comes from a function or variable like sensor_data
+
+def monitor_tomato_conditions(sensor_data):
+    """
+    Monitors the tomato growing conditions using the TomatoSettings class.
+    Alerts are generated if any sensor values exceed the safe thresholds.
+
+    :param sensor_data: Dictionary containing sensor readings
+    """
+    tomato_settings = TomatoSettings()  # Instantiate the TomatoSettings class
+    alerts = tomato_settings.check_conditions(
+        temperature=sensor_data["temperature"],
+        humidity=sensor_data["humidity"],
+        moisture=sensor_data["moisture"],
+        light_intensity=sensor_data["light_intensity"]
+    )
+
+    # Display alerts, if any
+    for alert in alerts:
+        print(alert)  # In a GUI, you could trigger a pop-up or visual alert
+
+
+# Example of the sensor data used in the main program:
+sensor_data_example = {
+    "temperature": 28.0,   # Temperature in Celsius
+    "humidity": 50.0,      # Humidity in %
+    "moisture": 65.0,      # Soil moisture in %
+    "light_intensity": 35000  # Light intensity in lux
+}
+
+# Test the monitoring function with the example data
+monitor_tomato_conditions(sensor_data_example)
